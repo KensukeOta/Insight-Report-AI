@@ -2,6 +2,8 @@ from io import BytesIO
 
 import pandas as pd
 
+from ..services.chart import create_histogram_charts
+
 
 def analyze_csv(filename: str, content: bytes) -> dict:
     if not content:
@@ -53,7 +55,7 @@ def analyze_csv(filename: str, content: bytes) -> dict:
             "numeric_summary": numeric_summary,
             "correlations": [],
         },
-        "charts": [],
+        "charts": create_histogram_charts(df),
         "ai_report": {
             "summary": "MVPではAI要約は未実装です。",
             "insights": [],

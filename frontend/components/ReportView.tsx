@@ -32,6 +32,21 @@ export default function ReportView({ data }: Props) {
         ))}
       </ul>
 
+      <h2 className="text-xl font-bold">グラフ</h2>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        {data.charts.map((chart: any) => (
+          <div key={chart.id} className="rounded border p-4">
+            <h3 className="mb-2 font-bold">{chart.title}</h3>
+            <img
+              src={`data:image/png;base64,${chart.image_base64}`}
+              alt={chart.title}
+              className="w-full"
+            />
+          </div>
+        ))}
+      </div>
+
       <h2 className="text-xl font-bold">AI要約</h2>
       <p>{data.ai_report.summary}</p>
     </div>
