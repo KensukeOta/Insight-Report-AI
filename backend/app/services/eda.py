@@ -2,6 +2,7 @@ from io import BytesIO
 
 import pandas as pd
 
+from ..services.ai_report import generate_ai_report
 from ..services.chart import create_histogram_charts
 
 
@@ -44,26 +45,23 @@ def analyze_csv(filename: str, content: bytes) -> dict:
             }
         )
 
+    dataset = {
+        "filename": filename,
+        "row_count": int(len(df)),
+        "column_count": int(len(df.columns)),
+        "columns": columns,
+    }
+
+    statistics = {
+        "numeric_summary": numeric_summary,
+        "correlations": [],
+    }
+
     return {
-        "dataset": {
-            "filename": filename,
-            "row_count": int(len(df)),
-            "column_count": int(len(df.columns)),
-            "columns": columns,
-        },
-        "statistics": {
-            "numeric_summary": numeric_summary,
-            "correlations": [],
-        },
+        "dataset": dataset,
+        "statistics": statistics,
         "charts": create_histogram_charts(df),
-        "ai_report": {
-            "summary": "MVPではAI要約は未実装です。",
-            "insights": [],
-            "recommendations": [],
-            "cautions": [
-                "この結果は自動集計に基づくため、業務判断には元データの確認も必要です。"
-            ],
-        },
+        "ai_report": generate_ai_report(dataset, statistics),
     }
 
 

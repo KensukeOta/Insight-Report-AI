@@ -48,7 +48,40 @@ export default function ReportView({ data }: Props) {
       </div>
 
       <h2 className="text-xl font-bold">AI要約</h2>
-      <p>{data.ai_report.summary}</p>
+
+      <div className="space-y-4 rounded border p-4">
+        <div>
+          <h3 className="font-bold">概要</h3>
+          <p>{data.ai_report.summary}</p>
+        </div>
+
+        <div>
+          <h3 className="font-bold">気づき</h3>
+          <ul className="list-disc pl-5">
+            {data.ai_report.insights.map((item: string) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="font-bold">改善提案</h3>
+          <ul className="list-disc pl-5">
+            {data.ai_report.recommendations.map((item: string) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <h3 className="font-bold">注意点</h3>
+          <ul className="list-disc pl-5">
+            {data.ai_report.cautions.map((item: string) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }
