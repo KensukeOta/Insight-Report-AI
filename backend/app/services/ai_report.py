@@ -26,7 +26,8 @@ def generate_ai_report(dataset: dict, statistics: dict) -> dict:
             dataset=dataset,
             statistics=statistics,
         )
-    except Exception:
+    except Exception as e:
+        print("Gemini error:", e)
         return generate_rule_based_report(dataset, statistics)
 
 
