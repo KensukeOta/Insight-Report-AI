@@ -1,18 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import ReportView from "@/components/ReportView";
+import { useState } from "react";
+import ReportView, { type ReportData } from "@/components/ReportView";
+
+function getInitialReportData(): ReportData | null {
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const stored = sessionStorage.getItem("report");
+
+  if (!stored) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(stored) as ReportData;
+  } catch {
+    return null;
+  }
+}
 
 export default function ReportPage() {
-  const [data, setData] = useState<any>(null);
-
-  useEffect(() => {
-    const stored = sessionStorage.getItem("report");
-
-    if (stored) {
-      setData(JSON.parse(stored));
-    }
-  }, []);
+  const [data] = useState<ReportData | null>(() => getInitialReportData());
 
   if (!data) {
     return <div className="p-8">データがありません</div>;
