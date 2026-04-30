@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     gemini_api_key: str | None = None
     gemini_model: str = "gemini-2.5-flash"
+    frontend_origin: str = "http://localhost:3000"
 
     model_config = SettingsConfigDict(
         env_file=".env",
