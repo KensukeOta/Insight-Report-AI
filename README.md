@@ -7,7 +7,7 @@ CSVをアップロードするだけで、データ分析・可視化・AIによ
 
 ## 🔗 デモ
 
-（※デプロイ後にURLを記載）
+https://insight-report-ai-kensuke.vercel.app/
 
 ---
 
