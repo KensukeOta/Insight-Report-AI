@@ -114,6 +114,14 @@ Gemini API → 失敗 → ルールベース
 
 ---
 
+## ⚙️ デプロイ構成
+
+- フロントエンド：Vercel
+- バックエンド：FastAPI Cloud
+- GitHub Actions による自動デプロイ
+
+---
+
 ## 🔧 セットアップ
 
 ### バックエンド
@@ -171,7 +179,7 @@ GEMINI_MODEL=gemini-2.5-flash-lite
 
 ## 👤 作成者
 
-（あなたの名前）
+太田 健介
 
 ---
 
