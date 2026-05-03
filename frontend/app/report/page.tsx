@@ -25,12 +25,23 @@ export default function ReportPage() {
   const [data] = useState<ReportData | null>(() => getInitialReportData());
 
   if (!data) {
-    return <div className="p-8">データがありません</div>;
+    return (
+      <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-950 sm:px-8">
+        <div className="mx-auto max-w-4xl rounded-lg border border-slate-200 bg-white p-8 text-center shadow-sm">
+          <p className="text-lg font-bold">データがありません</p>
+          <p className="mt-2 text-sm text-slate-600">
+            CSVをアップロードしてからレポートを確認してください。
+          </p>
+        </div>
+      </main>
+    );
   }
 
   return (
-    <div className="p-8">
-      <ReportView data={data} />
-    </div>
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-950 sm:px-8">
+      <div className="mx-auto max-w-6xl">
+        <ReportView data={data} />
+      </div>
+    </main>
   );
 }
