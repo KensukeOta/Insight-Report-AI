@@ -15,7 +15,9 @@ https://insight-report-ai-kensuke.vercel.app/
 
 ### アップロード画面
 
-（ここに画像）
+CSVファイルをドラッグ＆ドロップ、またはファイル選択でアップロードできます。
+
+![アップロード画面](./docs/images/upload.png)
 
 ### 分析中（ローディング）
 
