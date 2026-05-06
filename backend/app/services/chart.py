@@ -38,3 +38,32 @@ def create_histogram_charts(df: pd.DataFrame) -> list[dict]:
         )
 
     return charts
+
+
+def create_scatter_chart(
+    df: pd.DataFrame,
+    x_column: str,
+    y_column: str,
+) -> dict:
+    fig, ax = plt.subplots()
+
+    ax.scatter(df[x_column], df[y_column])
+
+    ax.set_title(f"{x_column} vs {y_column}")
+    ax.set_xlabel(x_column)
+    ax.set_ylabel(y_column)
+
+    buffer = BytesIO()
+
+    fig.savefig(buffer, format="png", bbox_inches="tight")
+
+    plt.close(fig)
+
+    image_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+
+    return {
+        "id": f"scatter_{x_column}_{y_column}",
+        "title": f"{x_column} × {y_column}",
+        "type": "scatter",
+        "image_base64": image_base64,
+    }

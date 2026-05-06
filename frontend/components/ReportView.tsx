@@ -15,6 +15,12 @@ export type ReportData = {
       column: string;
       mean: number;
     }[];
+
+    correlations: {
+      column_x: string;
+      column_y: string;
+      correlation: number | null;
+    }[];
   };
   charts: {
     id: string;
@@ -121,6 +127,38 @@ export default function ReportView({ data }: Props) {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 className="text-xl font-bold">相関係数</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          数値カラム同士の関係性を確認できます。1に近いほど正の相関、-1に近いほど負の相関が強いことを示します。
+        </p>
+
+        {data.statistics.correlations.length > 0 ? (
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {data.statistics.correlations.map((corr) => (
+              <div
+                key={`${corr.column_x}-${corr.column_y}`}
+                className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+              >
+                <p className="text-sm font-semibold text-slate-900">
+                  {corr.column_x} × {corr.column_y}
+                </p>
+                <p className="mt-2 text-2xl font-bold text-teal-700">
+                  {corr.correlation !== null
+                    ? corr.correlation.toFixed(3)
+                    : "N/A"}
+                </p>
+                <p className="mt-1 text-xs text-slate-500">相関係数</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 text-sm text-slate-500">
+            相関係数を算出できる数値カラムの組み合わせがありません。
+          </p>
+        )}
       </section>
 
       <section>
