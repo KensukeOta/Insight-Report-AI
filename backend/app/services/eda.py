@@ -7,6 +7,7 @@ from ..services.chart import (
     create_histogram_charts,
     create_scatter_chart,
     create_bar_chart,
+    create_line_chart,
 )
 
 
@@ -114,18 +115,44 @@ def analyze_csv(filename: str, content: bytes) -> dict:
     charts = create_histogram_charts(df)
 
     for summary in category_summaries[:3]:
-        charts.append(
-            create_bar_chart(
-                labels=[item["label"] for item in summary["items"]],
-                values=[item["value"] or 0 for item in summary["items"]],
-                title=f"{summary['category_column']} 別 {summary['numeric_column']} 合計",
-                x_label=summary["category_column"],
-                y_label=summary["numeric_column"],
-                chart_id=(
-                    f"bar_{summary['category_column']}_{summary['numeric_column']}_sum"
-                ),
+        labels = [item["label"] for item in summary["items"]]
+        values = [item["value"] or 0 for item in summary["items"]]
+
+        is_date_like = "date" in summary["category_column"].lower()
+
+        if is_date_like:
+            charts.append(
+                create_line_chart(
+                    labels=labels,
+                    values=values,
+                    title=(
+                        f"{summary['category_column']} 別 "
+                        f"{summary['numeric_column']} 推移"
+                    ),
+                    x_label=summary["category_column"],
+                    y_label=summary["numeric_column"],
+                    chart_id=(
+                        f"line_{summary['category_column']}_{summary['numeric_column']}"
+                    ),
+                )
             )
-        )
+        else:
+            charts.append(
+                create_bar_chart(
+                    labels=labels,
+                    values=values,
+                    title=(
+                        f"{summary['category_column']} 別 "
+                        f"{summary['numeric_column']} 合計"
+                    ),
+                    x_label=summary["category_column"],
+                    y_label=summary["numeric_column"],
+                    chart_id=(
+                        f"bar_{summary['category_column']}_"
+                        f"{summary['numeric_column']}_sum"
+                    ),
+                )
+            )
 
     if correlations:
         strongest = correlations[0]

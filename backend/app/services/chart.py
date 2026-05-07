@@ -3,10 +3,11 @@ from io import BytesIO
 
 import matplotlib
 
-matplotlib.use("Agg")
-
 import matplotlib.pyplot as plt
 import pandas as pd
+
+matplotlib.rcParams["font.family"] = "IPAexGothic"
+matplotlib.rcParams["axes.unicode_minus"] = False
 
 
 def create_histogram_charts(df: pd.DataFrame) -> list[dict]:
@@ -96,5 +97,39 @@ def create_bar_chart(
         "id": chart_id,
         "title": title,
         "type": "bar",
+        "image_base64": image_base64,
+    }
+
+
+def create_line_chart(
+    labels: list[str],
+    values: list[float],
+    title: str,
+    x_label: str,
+    y_label: str,
+    chart_id: str,
+) -> dict:
+    fig, ax = plt.subplots()
+
+    ax.plot(labels, values, marker="o")
+
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+
+    plt.xticks(rotation=30, ha="right")
+
+    buffer = BytesIO()
+
+    fig.savefig(buffer, format="png", bbox_inches="tight")
+
+    plt.close(fig)
+
+    image_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+
+    return {
+        "id": chart_id,
+        "title": title,
+        "type": "line",
         "image_base64": image_base64,
     }
