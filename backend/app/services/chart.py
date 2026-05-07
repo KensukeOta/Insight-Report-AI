@@ -1,13 +1,20 @@
 import base64
 from io import BytesIO
+from pathlib import Path
 
 import matplotlib
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib import font_manager
 
-matplotlib.rcParams["font.family"] = "sans-serif"
-matplotlib.rcParams["font.sans-serif"] = ["IPAexGothic"]
+BASE_DIR = Path(__file__).resolve().parents[2]
+FONT_PATH = BASE_DIR / "assets" / "fonts" / "NotoSansJP-Regular.ttf"
+
+font_manager.fontManager.addfont(str(FONT_PATH))
+jp_font = font_manager.FontProperties(fname=str(FONT_PATH))
+
+matplotlib.rcParams["font.family"] = jp_font.get_name()
 matplotlib.rcParams["axes.unicode_minus"] = False
 
 
