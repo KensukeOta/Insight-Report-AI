@@ -6,7 +6,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
 
-matplotlib.rcParams["font.family"] = "IPAexGothic"
+matplotlib.rcParams["font.family"] = "sans-serif"
+matplotlib.rcParams["font.sans-serif"] = ["IPAexGothic"]
 matplotlib.rcParams["axes.unicode_minus"] = False
 
 
