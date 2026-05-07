@@ -21,6 +21,16 @@ export type ReportData = {
       column_y: string;
       correlation: number | null;
     }[];
+
+    category_summaries: {
+      category_column: string;
+      numeric_column: string;
+      aggregation: "sum";
+      items: {
+        label: string;
+        value: number | null;
+      }[];
+    }[];
   };
   charts: {
     id: string;
@@ -157,6 +167,48 @@ export default function ReportView({ data }: Props) {
         ) : (
           <p className="mt-4 text-sm text-slate-500">
             相関係数を算出できる数値カラムの組み合わせがありません。
+          </p>
+        )}
+      </section>
+
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <h2 className="text-xl font-bold">カテゴリ別集計</h2>
+        <p className="mt-1 text-sm text-slate-500">
+          カテゴリごとの数値合計を確認できます。
+        </p>
+
+        {data.statistics.category_summaries.length > 0 ? (
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
+            {data.statistics.category_summaries.slice(0, 4).map((summary) => (
+              <div
+                key={`${summary.category_column}-${summary.numeric_column}`}
+                className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+              >
+                <p className="text-sm font-semibold text-slate-900">
+                  {summary.category_column} 別 {summary.numeric_column} 合計
+                </p>
+
+                <ul className="mt-3 space-y-2 text-sm text-slate-700">
+                  {summary.items.map((item) => (
+                    <li
+                      key={item.label}
+                      className="flex items-center justify-between gap-4"
+                    >
+                      <span>{item.label}</span>
+                      <span className="font-semibold text-teal-700">
+                        {item.value !== null
+                          ? item.value.toLocaleString()
+                          : "N/A"}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-4 text-sm text-slate-500">
+            カテゴリ別集計に適した列がありません。
           </p>
         )}
       </section>
