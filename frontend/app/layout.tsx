@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = "https://insight-report-ai-kensuke.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Insight Report AI",
   description:
     "CSVをアップロードするだけで、AIによる分析・可視化・レポート生成を行うWebアプリ",
@@ -9,7 +12,31 @@ export const metadata: Metadata = {
     title: "Insight Report AI",
     description:
       "CSVをアップロードするだけで、AIによる分析・可視化・レポート生成を行うWebアプリ",
-    images: ["/ogp.png"],
+    url: siteUrl,
+
+    siteName: "Insight Report AI",
+
+    images: [
+      {
+        url: `${siteUrl}/ogp.png`,
+        width: 1200,
+        height: 630,
+        alt: "Insight Report AI",
+      },
+    ],
+
+    locale: "ja_JP",
+
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Insight Report AI",
+    description:
+      "CSVをアップロードするだけで、AIによる分析・可視化・レポート生成を行うWebアプリ",
+
+    images: [`${siteUrl}/ogp.png`],
   },
 };
 
