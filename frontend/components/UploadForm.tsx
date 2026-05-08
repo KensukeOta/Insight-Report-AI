@@ -136,7 +136,7 @@ export default function UploadForm() {
         <button
           onClick={handleUpload}
           disabled={!file || loading}
-          className="rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-300"
+          className="rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 hover:cursor-pointer disabled:cursor-not-allowed disabled:bg-slate-300"
         >
           {loading ? "分析中..." : "アップロードして分析"}
         </button>
