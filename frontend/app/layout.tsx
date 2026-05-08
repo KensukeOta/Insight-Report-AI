@@ -3,7 +3,14 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Insight Report AI",
-  description: "CSVから分析レポートを自動生成するWebアプリ",
+  description:
+    "CSVをアップロードするだけで、AIによる分析・可視化・レポート生成を行うWebアプリ",
+  openGraph: {
+    title: "Insight Report AI",
+    description:
+      "CSVをアップロードするだけで、AIによる分析・可視化・レポート生成を行うWebアプリ",
+    images: ["/ogp.png"],
+  },
 };
 
 export default function RootLayout({

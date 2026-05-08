@@ -1,7 +1,26 @@
 # Insight Report AI
 
-CSVをアップロードするだけで、データ分析・可視化・AIによる要約を自動生成するWebアプリケーションです。  
-非エンジニアでも簡単にデータから示唆を得られることを目的としています。
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Python](https://img.shields.io/badge/Python-3.13-yellow)
+![Gemini API](https://img.shields.io/badge/Gemini-API-orange)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
+
+CSVをアップロードするだけで、EDA（探索的データ分析）・可視化・AI要約レポート生成を自動で行う、非エンジニア向けAI分析Webアプリです。
+
+データ分析のハードルを下げ、「データはあるが分析できない」という課題の解決を目的としています。
+
+---
+
+## ✨ 特徴
+
+- CSVアップロードのみで分析可能
+- AIによる重要ポイント抽出
+- 相関分析・カテゴリ分析・時系列分析に対応
+- Markdown / PDFレポート出力
+- Gemini API失敗時のフォールバック設計
+- GitHub ActionsによるCI/CD
 
 ---
 
@@ -33,7 +52,7 @@ CSV読み込み・集計・グラフ生成・AI要約生成の進捗を表示し
 
 ---
 
-## 🏗 システム構成
+## 🏗 システム構成図
 
 ```mermaid
 flowchart TD
@@ -77,6 +96,50 @@ flowchart TD
 
 ---
 
+## ✨ 主な機能
+
+### 📂 CSVアップロード
+
+- ドラッグ＆ドロップ対応
+- ファイル選択対応
+
+### 👀 データプレビュー
+
+- CSVの先頭5行を表示
+- 分析対象データを事前確認可能
+
+### 📊 EDA（探索的データ分析）
+
+- 行数・列数
+- 型情報
+- 欠損値チェック
+- 基本統計量
+
+### 📈 可視化
+
+- ヒストグラム
+- 相関分析
+- 散布図
+- カテゴリ別集計
+- 時系列分析
+
+### 🤖 AI要約
+
+- Gemini APIによる自然言語要約
+- 重要ポイント抽出
+- 改善提案生成
+
+### 🛡 フォールバック設計
+
+- Gemini API失敗時はルールベース要約へ切替
+
+### 📄 レポート出力
+
+- Markdownダウンロード
+- PDF保存
+
+---
+
 ### データ分析フロー
 
 1. CSVファイルをアップロード
@@ -113,7 +176,7 @@ flowchart TD
 
 ---
 
-## 🧠 工夫した点（ここが重要）
+## 🧠 工夫した点
 
 ### ① 非エンジニア向けUX設計
 
@@ -176,6 +239,42 @@ Gemini API → 失敗 → ルールベース
 
 ---
 
+## 🧠 技術選定理由
+
+### Next.js
+
+- App Routerによるモダンな構成
+- TypeScriptとの相性
+- Vercelとの親和性
+
+### FastAPI
+
+- Pythonによるデータ分析との統合が容易
+- 型ベースでAPIを実装できる
+- 高速なAPI開発が可能
+
+### pandas
+
+- EDA（探索的データ分析）の実装が容易
+- 実務でも広く利用されている
+
+### matplotlib
+
+- サーバー側でグラフ生成が可能
+- 画像として返却できるためフロント実装がシンプル
+
+### Gemini API
+
+- 無料枠が利用可能
+- 自然言語要約を高速に生成可能
+
+### GitHub Actions
+
+- frontend/backend を分離して自動デプロイ
+- モノレポ構成でもCI/CDを管理しやすい
+
+---
+
 ## ⚙️ デプロイ構成
 
 - フロントエンド：Vercel
@@ -221,21 +320,14 @@ GEMINI_MODEL=gemini-2.5-flash-lite
 
 ## 🚀 今後の改善
 
-- レポートのPDF出力
-- ユーザー認証・履歴保存
-- 相関分析の可視化
-- グラフの種類追加
+- レポート履歴保存機能
+- ユーザー認証
+- 分析テンプレート機能
+- AIチャットによる追加分析
+- 大規模CSV対応
 - RAGによる業務知識統合
-
----
-
-## 🧩 このアプリでアピールできること
-
-- データ分析（EDA）の実装力
-- Webアプリ開発（Next.js + FastAPI）
-- AIの実務的な組み込み
-- フォールバック設計（耐障害性）
-- 非エンジニア向けのUX設計
+- 異常値検知
+- ダッシュボード共有機能
 
 ---
 

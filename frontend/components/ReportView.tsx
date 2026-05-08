@@ -62,21 +62,13 @@ export default function ReportView({ data }: Props) {
   ];
 
   const chartGroups = {
-    histogram: data.charts.filter(
-      (chart) => chart.type === "histogram"
-    ),
-    line: data.charts.filter(
-      (chart) => chart.type === "line"
-    ),
-    scatter: data.charts.filter(
-      (chart) => chart.type === "scatter"
-    ),
-    bar: data.charts.filter(
-      (chart) => chart.type === "bar"
-    ),
+    histogram: data.charts.filter((chart) => chart.type === "histogram"),
+    line: data.charts.filter((chart) => chart.type === "line"),
+    scatter: data.charts.filter((chart) => chart.type === "scatter"),
+    bar: data.charts.filter((chart) => chart.type === "bar"),
   };
 
-    const downloadMarkdown = () => {
+  const downloadMarkdown = () => {
     const markdown = `# 分析レポート
 
 ## データ概要
@@ -141,9 +133,9 @@ ${data.ai_report.cautions.map((item) => `- ${item}`).join("\n")}
     URL.revokeObjectURL(url);
   };
 
-    const downloadPdf = () => {
-      window.print();
-    };
+  const downloadPdf = () => {
+    window.print();
+  };
 
   return (
     <div className="space-y-8">
@@ -191,20 +183,13 @@ ${data.ai_report.cautions.map((item) => `- ${item}`).join("\n")}
       <section className="rounded-lg border border-teal-200 bg-teal-50 p-5 shadow-sm">
         <div className="flex items-center gap-2">
           <span className="text-xl">📌</span>
-          <h2 className="text-xl font-bold text-teal-950">
-            重要ポイント
-          </h2>
+          <h2 className="text-xl font-bold text-teal-950">重要ポイント</h2>
         </div>
 
         <div className="mt-4 grid gap-3 md:grid-cols-3">
           {data.ai_report.highlights.map((highlight) => (
-            <div
-              key={highlight}
-              className="rounded-lg bg-white p-4 shadow-sm"
-            >
-              <p className="text-sm leading-6 text-slate-700">
-                {highlight}
-              </p>
+            <div key={highlight} className="rounded-lg bg-white p-4 shadow-sm">
+              <p className="text-sm leading-6 text-slate-700">{highlight}</p>
             </div>
           ))}
         </div>
@@ -268,15 +253,9 @@ ${data.ai_report.cautions.map((item) => `- ${item}`).join("\n")}
 
               <tbody>
                 {data.dataset.preview.map((row, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-slate-100"
-                  >
+                  <tr key={index} className="border-b border-slate-100">
                     {Object.values(row).map((value, valueIndex) => (
-                      <td
-                        key={valueIndex}
-                        className="py-3 pr-4 text-slate-700"
-                      >
+                      <td key={valueIndex} className="py-3 pr-4 text-slate-700">
                         {value}
                       </td>
                     ))}
@@ -423,9 +402,7 @@ ${data.ai_report.cautions.map((item) => `- ${item}`).join("\n")}
               className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
             >
               <div className="mb-4">
-                <h3 className="text-xl font-bold">
-                  {group.title}
-                </h3>
+                <h3 className="text-xl font-bold">{group.title}</h3>
 
                 <p className="mt-1 text-sm text-slate-500">
                   {group.description}
