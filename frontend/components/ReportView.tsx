@@ -76,6 +76,71 @@ export default function ReportView({ data }: Props) {
     ),
   };
 
+    const downloadMarkdown = () => {
+    const markdown = `# 分析レポート
+
+## データ概要
+
+- 行数: ${data.dataset.row_count}
+- 列数: ${data.dataset.column_count}
+
+## 重要ポイント
+
+${data.ai_report.highlights.map((item) => `- ${item}`).join("\n")}
+
+## カラム情報
+
+${data.dataset.columns
+  .map((col) => `- ${col.name} (${col.dtype}) - 欠損: ${col.missing_count}`)
+  .join("\n")}
+
+## 統計情報
+
+${data.statistics.numeric_summary
+  .map((col) => `- ${col.column}: 平均 ${col.mean}`)
+  .join("\n")}
+
+## 相関係数
+
+${data.statistics.correlations
+  .map((corr) => {
+    const value =
+      corr.correlation !== null ? corr.correlation.toFixed(3) : "N/A";
+    return `- ${corr.column_x} × ${corr.column_y}: ${value}`;
+  })
+  .join("\n")}
+
+## AI要約
+
+${data.ai_report.summary}
+
+## 気づき
+
+${data.ai_report.insights.map((item) => `- ${item}`).join("\n")}
+
+## 改善提案
+
+${data.ai_report.recommendations.map((item) => `- ${item}`).join("\n")}
+
+## 注意点
+
+${data.ai_report.cautions.map((item) => `- ${item}`).join("\n")}
+`;
+
+    const blob = new Blob([markdown], {
+      type: "text/markdown;charset=utf-8",
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "analysis-report.md";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="space-y-8">
       <div>
@@ -86,6 +151,13 @@ export default function ReportView({ data }: Props) {
         <p className="mt-3 text-slate-600">
           CSVから抽出した概要、統計、可視化、AI要約をまとめて表示しています。
         </p>
+        <button
+          type="button"
+          onClick={downloadMarkdown}
+          className="mt-5 rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 hover:cursor-pointer"
+        >
+          Markdownでダウンロード
+        </button>
       </div>
 
       <section className="grid gap-4 md:grid-cols-3">
