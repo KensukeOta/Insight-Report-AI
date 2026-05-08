@@ -4,11 +4,14 @@ export type ReportData = {
   dataset: {
     row_count: number;
     column_count: number;
+
     columns: {
       name: string;
       dtype: string;
       missing_count: number;
     }[];
+
+    preview: Record<string, string>[];
   };
   statistics: {
     numeric_summary: {
@@ -117,6 +120,53 @@ export default function ReportView({ data }: Props) {
             </tbody>
           </table>
         </div>
+      </section>
+
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="mb-4">
+          <h2 className="text-xl font-bold">CSVプレビュー</h2>
+          <p className="mt-1 text-sm text-slate-500">
+            先頭5行を表示しています。
+          </p>
+        </div>
+
+        {data.dataset.preview.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[640px] border-collapse text-left text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 text-slate-500">
+                  {Object.keys(data.dataset.preview[0]).map((key) => (
+                    <th key={key} className="py-3 pr-4 font-semibold">
+                      {key}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+
+              <tbody>
+                {data.dataset.preview.map((row, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-slate-100"
+                  >
+                    {Object.values(row).map((value, valueIndex) => (
+                      <td
+                        key={valueIndex}
+                        className="py-3 pr-4 text-slate-700"
+                      >
+                        {value}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">
+            プレビューできるデータがありません。
+          </p>
+        )}
       </section>
 
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">

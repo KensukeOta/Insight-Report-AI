@@ -110,6 +110,7 @@ def analyze_csv(filename: str, content: bytes) -> dict:
         "row_count": int(len(df)),
         "column_count": int(len(df.columns)),
         "columns": columns,
+        "preview": (df.head(5).fillna("").astype(str).to_dict(orient="records")),
     }
 
     charts = create_histogram_charts(df)
