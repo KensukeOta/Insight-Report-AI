@@ -38,6 +38,7 @@ export type ReportData = {
   charts: {
     id: string;
     title: string;
+    type: "histogram" | "scatter" | "bar" | "line";
     image_base64: string;
   }[];
   ai_report: {
@@ -59,6 +60,21 @@ export default function ReportView({ data }: Props) {
     { title: "改善提案", items: data.ai_report.recommendations },
     { title: "注意点", items: data.ai_report.cautions },
   ];
+
+  const chartGroups = {
+    histogram: data.charts.filter(
+      (chart) => chart.type === "histogram"
+    ),
+    line: data.charts.filter(
+      (chart) => chart.type === "line"
+    ),
+    scatter: data.charts.filter(
+      (chart) => chart.type === "scatter"
+    ),
+    bar: data.charts.filter(
+      (chart) => chart.type === "bar"
+    ),
+  };
 
   return (
     <div className="space-y-8">
@@ -286,25 +302,73 @@ export default function ReportView({ data }: Props) {
         )}
       </section>
 
-      <section>
-        <h2 className="text-xl font-bold">グラフ</h2>
-        <div className="mt-4 grid gap-5 md:grid-cols-2">
-          {data.charts.map((chart) => (
-            <div
-              key={chart.id}
-              className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm"
-            >
-              <h3 className="mb-3 font-bold text-slate-950">{chart.title}</h3>
+      <section className="space-y-8">
+        <div>
+          <h2 className="text-2xl font-bold">グラフ分析</h2>
+          <p className="mt-2 text-sm text-slate-500">
+            分布・時系列・相関・カテゴリ別に可視化しています。
+          </p>
+        </div>
 
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={`data:image/png;base64,${chart.image_base64}`}
-                alt={chart.title}
-                className="w-full rounded-lg border border-slate-100"
-              />
+        {[
+          {
+            title: "📊 分布分析",
+            description: "数値データの分布を確認できます。",
+            charts: chartGroups.histogram,
+          },
+          {
+            title: "📈 時系列分析",
+            description: "時系列データの推移を確認できます。",
+            charts: chartGroups.line,
+          },
+          {
+            title: "🔗 相関分析",
+            description: "数値データ同士の関係を確認できます。",
+            charts: chartGroups.scatter,
+          },
+          {
+            title: "🏷 カテゴリ分析",
+            description: "カテゴリごとの集計結果を確認できます。",
+            charts: chartGroups.bar,
+          },
+        ]
+          .filter((group) => group.charts.length > 0)
+          .map((group) => (
+            <div
+              key={group.title}
+              className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
+            >
+              <div className="mb-4">
+                <h3 className="text-xl font-bold">
+                  {group.title}
+                </h3>
+
+                <p className="mt-1 text-sm text-slate-500">
+                  {group.description}
+                </p>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                {group.charts.map((chart) => (
+                  <div
+                    key={chart.id}
+                    className="rounded-lg border border-slate-200 bg-slate-50 p-4"
+                  >
+                    <h4 className="mb-3 font-bold text-slate-950">
+                      {chart.title}
+                    </h4>
+
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`data:image/png;base64,${chart.image_base64}`}
+                      alt={chart.title}
+                      className="w-full rounded-lg border border-slate-100"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
-        </div>
       </section>
 
       <section className="rounded-lg border border-amber-200 bg-amber-50 p-5 shadow-sm">
