@@ -141,6 +141,10 @@ ${data.ai_report.cautions.map((item) => `- ${item}`).join("\n")}
     URL.revokeObjectURL(url);
   };
 
+    const downloadPdf = () => {
+      window.print();
+    };
+
   return (
     <div className="space-y-8">
       <div>
@@ -157,6 +161,14 @@ ${data.ai_report.cautions.map((item) => `- ${item}`).join("\n")}
           className="mt-5 rounded-lg bg-slate-950 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 hover:cursor-pointer"
         >
           Markdownでダウンロード
+        </button>
+
+        <button
+          type="button"
+          onClick={downloadPdf}
+          className="rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white ml-2 hover:bg-teal-600 hover:cursor-pointer"
+        >
+          PDFとして保存
         </button>
       </div>
 
