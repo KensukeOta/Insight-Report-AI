@@ -42,6 +42,7 @@ export type ReportData = {
   }[];
   ai_report: {
     summary: string;
+    highlights: string[];
     insights: string[];
     recommendations: string[];
     cautions: string[];
@@ -85,6 +86,28 @@ export default function ReportView({ data }: Props) {
             <p className="mt-2 text-3xl font-bold text-slate-950">{value}</p>
           </div>
         ))}
+      </section>
+
+      <section className="rounded-lg border border-teal-200 bg-teal-50 p-5 shadow-sm">
+        <div className="flex items-center gap-2">
+          <span className="text-xl">📌</span>
+          <h2 className="text-xl font-bold text-teal-950">
+            重要ポイント
+          </h2>
+        </div>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          {data.ai_report.highlights.map((highlight) => (
+            <div
+              key={highlight}
+              className="rounded-lg bg-white p-4 shadow-sm"
+            >
+              <p className="text-sm leading-6 text-slate-700">
+                {highlight}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">

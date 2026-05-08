@@ -8,6 +8,7 @@ from ..config import get_settings
 
 class AIReport(BaseModel):
     summary: str
+    highlights: list[str]
     insights: list[str]
     recommendations: list[str]
     cautions: list[str]
@@ -48,10 +49,21 @@ Markdownや説明文は不要です。
 
 {{
   "summary": "全体の要約",
+  "highlights": ["重要ポイント1", "重要ポイント2", "重要ポイント3"],
   "insights": ["重要な気づき1", "重要な気づき2"],
   "recommendations": ["改善提案1", "改善提案2"],
   "cautions": ["注意点1"]
 }}
+
+ルール:
+- highlights は3件以内
+- highlights は短く簡潔に書く
+- insights は分析から得られる具体的な気づきを書く
+- recommendations は改善アクションを書く
+- cautions は分析上の注意点を書く
+- 相関係数、カテゴリ別集計、時系列推移に特徴がある場合は優先的に含める
+- 非エンジニアでも理解できる表現にする
+- 同じ内容を繰り返さない
 
 dataset:
 {json.dumps(dataset, ensure_ascii=False)}
@@ -77,6 +89,8 @@ statistics:
 def generate_rule_based_report(dataset: dict, statistics: dict) -> dict:
     numeric_summary = statistics.get("numeric_summary", [])
     columns = dataset.get("columns", [])
+    correlations = statistics.get("correlations", [])
+    category_summaries = statistics.get("category_summaries", [])
 
     missing_columns = [col for col in columns if col.get("missing_count", 0) > 0]
 
@@ -110,11 +124,33 @@ def generate_rule_based_report(dataset: dict, statistics: dict) -> dict:
             "数値項目同士の関係を確認することで、売上や成果に影響する要因を把握しやすくなります。"
         )
 
+    highlights = [
+        f"{dataset.get('row_count')} 行・{dataset.get('column_count')} 列のデータを分析しました。"
+    ]
+
+    if correlations:
+        top_corr = correlations[0]
+        if top_corr.get("correlation") is not None:
+            highlights.append(
+                f"{top_corr['column_x']} と {top_corr['column_y']} の相関係数は "
+                f"{top_corr['correlation']:.3f} です。"
+            )
+
+    if category_summaries:
+        first_summary = category_summaries[0]
+        if first_summary.get("items"):
+            top_item = first_summary["items"][0]
+            highlights.append(
+                f"{first_summary['category_column']} 別では、"
+                f"{top_item['label']} の {first_summary['numeric_column']} が最も大きいです。"
+            )
+
     return {
         "summary": (
             f"{dataset.get('filename')} は、"
             f"{dataset.get('row_count')} 行・{dataset.get('column_count')} 列のデータです。"
         ),
+        "highlights": highlights[:3],
         "insights": insights,
         "recommendations": recommendations,
         "cautions": cautions,
