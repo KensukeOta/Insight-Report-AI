@@ -33,6 +33,62 @@ CSV読み込み・集計・グラフ生成・AI要約生成の進捗を表示し
 
 ---
 
+## 🏗 システム構成
+
+```mermaid
+flowchart TD
+
+    User[ユーザー]
+
+    Frontend[Next.js Frontend<br/>TypeScript / Tailwind CSS]
+
+    Backend[FastAPI Backend<br/>Python / pandas]
+
+    Charts[matplotlib<br/>グラフ生成]
+
+    AI[Gemini API<br/>AI要約]
+
+    Storage[sessionStorage<br/>レポート保持]
+
+    CI[GitHub Actions<br/>CI/CD]
+
+    Vercel[Vercel]
+
+    FastAPICloud[FastAPI Cloud]
+
+    User --> Frontend
+
+    Frontend -->|CSV Upload| Backend
+
+    Backend --> Charts
+
+    Backend --> AI
+
+    Backend --> Frontend
+
+    Frontend --> Storage
+
+    CI --> Vercel
+    CI --> FastAPICloud
+
+    Frontend --> Vercel
+    Backend --> FastAPICloud
+```
+
+---
+
+### データ分析フロー
+
+1. CSVファイルをアップロード
+2. FastAPIでCSVを解析
+3. pandasでEDA（統計・相関分析）
+4. matplotlibでグラフ生成
+5. Gemini APIでAI要約生成
+6. Next.jsでレポート表示
+7. Markdown / PDFでレポート出力
+
+---
+
 ## 🎯 背景・課題
 
 多くの業務現場では以下の課題があります。
