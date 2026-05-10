@@ -10,7 +10,7 @@ const loadingMessages = [
   "AIがレポートを作成しています...",
 ];
 
-export default function UploadForm() {
+export const UploadForm = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [messageIndex, setMessageIndex] = useState(0);
@@ -106,9 +106,13 @@ export default function UploadForm() {
         </p>
         <p className="mb-5 text-sm text-slate-500">またはクリックして選択</p>
 
-        <label className="cursor-pointer rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-slate-100">
+        <label
+          htmlFor="csv-upload"
+          className="cursor-pointer rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition hover:border-slate-400 hover:bg-slate-100"
+        >
           ファイルを選択
           <input
+            id="csv-upload"
             type="file"
             accept=".csv"
             disabled={loading}
@@ -155,4 +159,4 @@ export default function UploadForm() {
       )}
     </div>
   );
-}
+};

@@ -54,7 +54,7 @@ type Props = {
   data: ReportData;
 };
 
-export default function ReportView({ data }: Props) {
+export const ReportView = ({ data }: Props) => {
   const aiSections: { title: string; items: string[] }[] = [
     { title: "気づき", items: data.ai_report.insights },
     { title: "改善提案", items: data.ai_report.recommendations },
@@ -459,4 +459,4 @@ ${data.ai_report.cautions.map((item) => `- ${item}`).join("\n")}
       </section>
     </div>
   );
-}
+};

@@ -1,7 +1,8 @@
 "use client";
 
+import type { ReportData } from "@/components/ReportView";
 import { useState } from "react";
-import ReportView, { type ReportData } from "@/components/ReportView";
+import { ReportView } from "@/components/ReportView";
 
 function getInitialReportData(): ReportData | null {
   if (typeof window === "undefined") {
